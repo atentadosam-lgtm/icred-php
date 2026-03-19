@@ -75,12 +75,49 @@ margin-bottom: 12px;
 .thank-you-text {
 font-size: 15px;
 color: var(--text-mid);
-margin-bottom: 32px;
+margin-bottom: 24px;
 line-height: 1.6;
 }
-.info-box {
+.lead-data-box {
 background: var(--green-subtle);
 border: 1px solid rgba(34,197,94,0.2);
+border-radius: 12px;
+padding: 20px;
+margin-bottom: 24px;
+text-align: left;
+}
+.lead-data-box h4 {
+font-size: 13px;
+font-weight: 700;
+color: var(--green-dark);
+text-transform: uppercase;
+letter-spacing: 0.5px;
+margin-bottom: 12px;
+}
+.lead-data-item {
+display: flex;
+justify-content: space-between;
+align-items: center;
+padding: 8px 0;
+border-bottom: 1px dashed rgba(34,197,94,0.2);
+}
+.lead-data-item:last-child { border-bottom: none; }
+.lead-data-label {
+font-size: 12px;
+color: var(--text-light);
+font-weight: 500;
+}
+.lead-data-value {
+font-size: 14px;
+font-weight: 700;
+color: var(--text);
+text-align: right;
+max-width: 60%;
+word-break: break-word;
+}
+.info-box {
+background: #FAFBFC;
+border: 1px solid var(--border);
 border-radius: 12px;
 padding: 16px;
 margin-bottom: 24px;
@@ -90,6 +127,9 @@ text-align: left;
 font-size: 13px;
 color: var(--text-mid);
 margin-bottom: 8px;
+display: flex;
+align-items: center;
+gap: 8px;
 }
 .info-box p:last-child { margin-bottom: 0; }
 .info-box strong { color: var(--green-dark); }
@@ -142,13 +182,30 @@ margin-bottom: 24px;
 <h1 class="thank-you-title">Suas informações foram salvas</h1>
 <p class="thank-you-text">Aguarde nosso retorno. Entraremos em contato em breve para dar continuidade ao seu empréstimo.</p>
 
+<!-- DADOS DO LEAD (PREENCHIDO VIA JAVASCRIPT) -->
+<div class="lead-data-box">
+<h4>📋 Dados da Solicitação</h4>
+<div class="lead-data-item">
+<span class="lead-data-label">Nome</span>
+<span class="lead-data-value" id="lead-nome">Carregando...</span>
+</div>
+<div class="lead-data-item">
+<span class="lead-data-label">Telefone</span>
+<span class="lead-data-value" id="lead-telefone">Carregando...</span>
+</div>
+<div class="lead-data-item">
+<span class="lead-data-label">CPF</span>
+<span class="lead-data-value" id="lead-cpf">Carregando...</span>
+</div>
+</div>
+
 <div class="info-box">
 <p><strong>📧 Email:</strong> contato@icred.com.br</p>
 <p><strong>📱 WhatsApp:</strong> (11) 98765-4321</p>
 <p><strong>⏰ Prazo de retorno:</strong> Até 24h úteis</p>
 </div>
 
-<a href="index.html" class="btn-home">
+<a href="index.html" class="btn-home" onclick="limparDadosLead()">
 <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
 </svg>
@@ -161,5 +218,34 @@ Voltar para o início
 <p>© 2026 – Crédito seguro, rápido e transparente</p>
 </div>
 </div>
+
+<script>
+// Carregar dados do lead ao abrir a página
+document.addEventListener('DOMContentLoaded', function() {
+  try {
+    const leadData = JSON.parse(localStorage.getItem('icred_lead_data'));
+    
+    if (leadData) {
+      document.getElementById('lead-nome').textContent = leadData.nome || 'Não informado';
+      document.getElementById('lead-telefone').textContent = leadData.telefone || 'Não informado';
+      document.getElementById('lead-cpf').textContent = leadData.cpf || 'Não informado';
+    } else {
+      document.getElementById('lead-nome').textContent = '-';
+      document.getElementById('lead-telefone').textContent = '-';
+      document.getElementById('lead-cpf').textContent = '-';
+    }
+  } catch (e) {
+    console.error('Erro ao carregar dados:', e);
+    document.getElementById('lead-nome').textContent = '-';
+    document.getElementById('lead-telefone').textContent = '-';
+    document.getElementById('lead-cpf').textContent = '-';
+  }
+});
+
+// Limpar dados do lead ao voltar para o início (opcional)
+function limparDadosLead() {
+  localStorage.removeItem('icred_lead_data');
+}
+</script>
 </body>
 </html>
