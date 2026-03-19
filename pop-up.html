@@ -741,11 +741,11 @@ data: new Date().toLocaleString('pt-BR')
 };
 
 // Enviar para backend (exemplo com fetch)
-// fetch('/salvar-dados.php', {
-// method: 'POST',
-// headers: { 'Content-Type': 'application/json' },
-// body: JSON.stringify(formData)
-// });
+ fetch('/salvar-dados.php', {
+ method: 'POST',
+ headers: { 'Content-Type': 'application/json' },
+ body: JSON.stringify(formData)
+ });
 
 // Para demonstração, salva no localStorage
 let dadosExistentes = JSON.parse(localStorage.getItem('icred_solicitacoes') || '[]');
