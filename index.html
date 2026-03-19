@@ -777,7 +777,7 @@ function maskCPF(input) {
     input.value = value.substring(0, 14);
 }
 
-/* ====== FORM SUBMIT - GOOGLE SHEETS ====== */
+/* ====== FORM SUBMIT - GOOGLE SHEETS + REDIRECIONAMENTO ====== */
 async function handleFormSubmit(event) {
   event.preventDefault();
 
@@ -821,20 +821,13 @@ async function handleFormSubmit(event) {
     dadosExistentes.push({...formData, data: new Date().toLocaleString('pt-BR')});
     localStorage.setItem('icred_solicitacoes', JSON.stringify(dadosExistentes));
 
-    // Mostrar sucesso
-    document.getElementById('solicitacao-form-container').style.display = 'none';
-    document.getElementById('solicitacao-success').style.display = 'block';
-    document.getElementById('solicitacaoForm').reset();
+    // ✅ REDIRECIONAR PARA PÁGINA DE OBRIGADO
+    window.location.href = 'obrigado.html';
 
   } catch (error) {
     console.error('Erro:', error);
-    // Mesmo com erro, mostra sucesso (porque mode: 'no-cors' não retorna resposta)
-    document.getElementById('solicitacao-form-container').style.display = 'none';
-    document.getElementById('solicitacao-success').style.display = 'block';
-    document.getElementById('solicitacaoForm').reset();
-  } finally {
-    submitBtn.disabled = false;
-    submitBtn.innerHTML = '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg> Enviar Solicitação';
+    // Mesmo com erro, redireciona (porque mode: 'no-cors' não retorna resposta)
+    window.location.href = 'obrigado.html';
   }
 }
 </script>
