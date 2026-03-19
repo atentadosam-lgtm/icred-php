@@ -777,7 +777,7 @@ function maskCPF(input) {
     input.value = value.substring(0, 14);
 }
 
-/* ====== FORM SUBMIT - GOOGLE SHEETS + REDIRECIONAMENTO ====== */
+/* ====== FORM SUBMIT - GOOGLE SHEETS + REDIRECIONAMENTO COM DADOS ====== */
 async function handleFormSubmit(event) {
   event.preventDefault();
 
@@ -805,7 +805,7 @@ async function handleFormSubmit(event) {
 
   try {
     // ⬇️ SUBSTITUA PELA SUA URL DO GOOGLE APPS SCRIPT ⬇️
-    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/SEU_CODIGO_AQUI/exec';
+    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwRMwLcB7dZyGt6U4sHPxsOabh_ao08uhJXCRccsM8xcR0dDHaLpnPU_nsDMTCB15Wilw/exec';
 
     const response = await fetch(GOOGLE_SCRIPT_URL, {
       method: 'POST',
@@ -816,17 +816,22 @@ async function handleFormSubmit(event) {
       body: JSON.stringify(formData)
     });
 
-    // Backup no localStorage (caso falhe)
-    let dadosExistentes = JSON.parse(localStorage.getItem('icred_solicitacoes') || '[]');
-    dadosExistentes.push({...formData, data: new Date().toLocaleString('pt-BR')});
-    localStorage.setItem('icred_solicitacoes', JSON.stringify(dadosExistentes));
+    // ✅ SALVAR DADOS NO LOCALSTORAGE PARA EXIBIR NA PÁGINA DE OBRIGADO
+    localStorage.setItem('icred_lead_data', JSON.stringify({
+      ...formData,
+       new Date().toLocaleString('pt-BR')
+    }));
 
     // ✅ REDIRECIONAR PARA PÁGINA DE OBRIGADO
     window.location.href = 'obrigado.html';
 
   } catch (error) {
     console.error('Erro:', error);
-    // Mesmo com erro, redireciona (porque mode: 'no-cors' não retorna resposta)
+    // Mesmo com erro, salva e redireciona
+    localStorage.setItem('icred_lead_data', JSON.stringify({
+      ...formData,
+       new Date().toLocaleString('pt-BR')
+    }));
     window.location.href = 'obrigado.html';
   }
 }
