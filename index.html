@@ -708,10 +708,10 @@ async function handleFormSubmit(event) {
     });
 
     // Salvar no localStorage para exibir na página de obrigado
-    localStorage.setItem('icred_lead_data', JSON.stringify({
-      ...formData,
-       new Date().toLocaleString('pt-BR')
-    }));
+	localStorage.setItem('icred_lead_data', JSON.stringify({
+	  ...formData,
+	  data: new Date().toLocaleString('pt-BR')
+	}));
 
     // Redirecionar para página de obrigado
     window.location.href = 'obrigado.html';
@@ -719,10 +719,10 @@ async function handleFormSubmit(event) {
   } catch (error) {
     console.error('Erro:', error);
     // Mesmo com erro, salva e redireciona
-    localStorage.setItem('icred_lead_data', JSON.stringify({
-      ...formData,
-       new Date().toLocaleString('pt-BR')
-    }));
+	localStorage.setItem('icred_lead_data', JSON.stringify({
+	  ...formData,
+	  data: new Date().toLocaleString('pt-BR')
+	}));
     window.location.href = 'obrigado.html';
   }
 }
